@@ -6,15 +6,15 @@ import { Calendar, User, Edit, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
 import { ShareButton } from "@/components/ui/share-button"
+import { Suspense } from "react"
+import { PostPageSkeleton } from "@/components/ui/loading-skeleton"
 
 interface PostPageProps {
   params: Promise<{ slug: string }>
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params
+async function PostContent({ slug }: { slug: string }) {
   const supabase = await createClient()
-
   const {
     data: { user },
   } = await supabase.auth.getUser()
@@ -56,8 +56,8 @@ export default async function PostPage({ params }: PostPageProps) {
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* Back Navigation */}
-        <div className="mb-6">
-          <Button variant="ghost" asChild className="mb-4">
+        <div className="mb-6 animate-fade-in">
+          <Button variant="ghost" asChild className="mb-4 hover:bg-primary/5 transition-colors duration-200">
             <Link href="/" className="flex items-center gap-2">
               <ArrowLeft className="h-4 w-4" />
               <span className="hidden sm:inline">Back to Posts</span>
@@ -67,7 +67,7 @@ export default async function PostPage({ params }: PostPageProps) {
         </div>
 
         <article className="max-w-4xl mx-auto">
-          <header className="mb-8 space-y-6">
+          <header className="mb-8 space-y-6 animate-fade-in-delay-1">
             {/* Meta Information */}
             <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               <Calendar className="h-4 w-4" />
@@ -93,7 +93,12 @@ export default async function PostPage({ params }: PostPageProps) {
                 <ShareButton title={post.title} text={post.excerpt ?? post.title} className="hidden sm:inline-flex" />
                 <ShareButton title={post.title} text={post.excerpt ?? post.title} iconOnly className="sm:hidden" />
                 {isAuthor && (
-                  <Button asChild variant="outline" size="sm">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="hover:bg-primary/5 transition-colors duration-200 bg-transparent"
+                  >
                     <Link href={`/write/${post.id}`} className="flex items-center gap-2">
                       <Edit className="h-4 w-4" />
                       <span className="hidden sm:inline">Edit</span>
@@ -109,12 +114,12 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Featured Image */}
           {post.featured_image && (
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-8">
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-8 animate-fade-in-delay-2">
               <Image
                 src={post.featured_image || "/placeholder.svg"}
                 alt={post.title}
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 hover:scale-105"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
                 priority
               />
@@ -122,22 +127,26 @@ export default async function PostPage({ params }: PostPageProps) {
           )}
 
           {/* Content */}
-          <div className="prose prose-lg max-w-none mb-8">
+          <div className="prose prose-lg max-w-none mb-8 animate-fade-in-delay-3">
             <div className="whitespace-pre-wrap leading-relaxed text-base sm:text-lg">{post.content}</div>
           </div>
 
           {/* Image Gallery */}
           {post.images && post.images.length > 1 && (
-            <div className="space-y-6 mb-8">
+            <div className="space-y-6 mb-8 animate-fade-in-delay-4">
               <h3 className="text-xl sm:text-2xl font-semibold">Gallery</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {post.images.slice(1).map((image, index) => (
-                  <div key={index} className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer">
+                  <div
+                    key={index}
+                    className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer animate-fade-in-stagger"
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
                     <Image
                       src={image || "/placeholder.svg"}
                       alt={`Gallery image ${index + 1}`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-200"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
@@ -148,7 +157,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
           {/* Author Info */}
           {post.profiles && (
-            <div className="border-t pt-8 mt-8">
+            <div className="border-t pt-8 mt-8 animate-fade-in-delay-5">
               <div className="flex items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                   <User className="h-6 w-6 text-primary" />
@@ -163,5 +172,15 @@ export default async function PostPage({ params }: PostPageProps) {
         </article>
       </div>
     </div>
+  )
+}
+
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params
+
+  return (
+    <Suspense fallback={<PostPageSkeleton />}>
+      <PostContent slug={slug} />
+    </Suspense>
   )
 }

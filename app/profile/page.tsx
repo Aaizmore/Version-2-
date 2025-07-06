@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button"
 import { Settings, Calendar } from "lucide-react"
 import Link from "next/link"
 import type { Post } from "@/lib/types"
+import { Suspense } from "react"
+import { ProfileSkeleton, PostCardSkeleton } from "@/components/ui/loading-skeleton"
 
-export default async function ProfilePage() {
+async function ProfileContent() {
   const supabase = await createClient()
   const {
     data: { user },
@@ -53,10 +55,10 @@ export default async function ProfilePage() {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-4xl mx-auto">
-        <Card className="mb-8">
+        <Card className="mb-8 animate-fade-in hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-              <Avatar className="h-20 w-20 ring-4 ring-background shadow-lg">
+              <Avatar className="h-20 w-20 ring-4 ring-background shadow-lg hover:ring-primary/20 transition-all duration-300">
                 <AvatarImage
                   src={profile?.avatar_url || "/placeholder.svg"}
                   alt={displayName || "User avatar"}
@@ -73,7 +75,12 @@ export default async function ProfilePage() {
                     <CardTitle className="text-2xl">{displayName}</CardTitle>
                     <p className="text-muted-foreground">{user.email}</p>
                   </div>
-                  <Button asChild variant="outline" size="sm">
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="sm"
+                    className="hover:bg-primary/5 transition-colors duration-200 bg-transparent"
+                  >
                     <Link href="/profile/edit" className="flex items-center gap-2">
                       <Settings className="h-4 w-4" />
                       Edit Profile
@@ -90,11 +97,11 @@ export default async function ProfilePage() {
           </CardHeader>
           <CardContent>
             <div className="flex gap-6 text-sm">
-              <div>
+              <div className="hover:bg-primary/5 p-2 rounded-lg transition-colors duration-200">
                 <span className="font-semibold text-lg">{publishedPosts.length}</span>
                 <span className="text-muted-foreground ml-1">Published Posts</span>
               </div>
-              <div>
+              <div className="hover:bg-accent/5 p-2 rounded-lg transition-colors duration-200">
                 <span className="font-semibold text-lg">{draftPosts.length}</span>
                 <span className="text-muted-foreground ml-1">Drafts</span>
               </div>
@@ -103,37 +110,62 @@ export default async function ProfilePage() {
         </Card>
 
         {draftPosts.length > 0 && (
-          <div className="mb-8">
+          <div className="mb-8 animate-fade-in-delay-1">
             <div className="flex items-center gap-2 mb-4">
               <h2 className="text-2xl font-semibold">Drafts</h2>
               <Badge variant="secondary">{draftPosts.length}</Badge>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
-              {draftPosts.map((post: Post) => (
-                <PostCard key={post.id} post={post} />
+              {draftPosts.map((post: Post, index) => (
+                <div key={post.id} className="animate-fade-in-stagger" style={{ animationDelay: `${index * 100}ms` }}>
+                  <PostCard post={post} />
+                </div>
               ))}
             </div>
           </div>
         )}
 
-        <div>
+        <div className="animate-fade-in-delay-2">
           <div className="flex items-center gap-2 mb-4">
             <h2 className="text-2xl font-semibold">Published Posts</h2>
             <Badge variant="outline">{publishedPosts.length}</Badge>
           </div>
           {publishedPosts.length > 0 ? (
             <div className="grid gap-6 md:grid-cols-2">
-              {publishedPosts.map((post: Post) => (
-                <PostCard key={post.id} post={post} />
+              {publishedPosts.map((post: Post, index) => (
+                <div key={post.id} className="animate-fade-in-stagger" style={{ animationDelay: `${index * 100}ms` }}>
+                  <PostCard post={post} />
+                </div>
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-center py-8">
-              No published posts yet. Start writing to share your thoughts!
-            </p>
+            <div className="text-center py-8 animate-fade-in">
+              <p className="text-muted-foreground">No published posts yet. Start writing to share your thoughts!</p>
+              <Button asChild className="mt-4" size="lg">
+                <Link href="/write">Write Your First Post</Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>
     </div>
+  )
+}
+
+function ProfileLoadingSkeleton() {
+  return (
+    <div className="grid gap-6 md:grid-cols-2">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <PostCardSkeleton key={i} />
+      ))}
+    </div>
+  )
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={<ProfileSkeleton />}>
+      <ProfileContent />
+    </Suspense>
   )
 }

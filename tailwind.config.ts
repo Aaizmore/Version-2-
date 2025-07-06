@@ -53,18 +53,18 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Professional color palette
-        burgundy: {
-          50: "#fef7f7",
-          100: "#fdeaea",
-          200: "#fbd5d5",
-          300: "#f7b2b2",
-          400: "#f18888",
-          500: "#e85d5d",
-          600: "#d53f3f",
-          700: "#b12d2d",
-          800: "#932929",
-          900: "#7c2727",
+        // Custom gold and pink palette
+        pink: {
+          50: "#fdf2f8",
+          100: "#fce7f3",
+          200: "#fbcfe8",
+          300: "#f9a8d4",
+          400: "#f472b6",
+          500: "#ec4899", // Primary pink
+          600: "#db2777",
+          700: "#be185d",
+          800: "#9d174d",
+          900: "#831843",
         },
         gold: {
           50: "#fffbeb",
@@ -72,11 +72,23 @@ const config = {
           200: "#fde68a",
           300: "#fcd34d",
           400: "#fbbf24",
-          500: "#f59e0b",
+          500: "#f59e0b", // Primary gold
           600: "#d97706",
           700: "#b45309",
           800: "#92400e",
           900: "#78350f",
+        },
+        rose: {
+          50: "#fff1f2",
+          100: "#ffe4e6",
+          200: "#fecdd3",
+          300: "#fda4af",
+          400: "#fb7185",
+          500: "#f43f5e",
+          600: "#e11d48",
+          700: "#be123c",
+          800: "#9f1239",
+          900: "#881337",
         },
       },
       borderRadius: {
@@ -93,38 +105,49 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "gradient-shift": {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-        },
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-8px)" },
-        },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in-stagger": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "gradient-shift": "gradient-shift 4s ease infinite",
-        float: "float 4s ease-in-out infinite",
         "fade-in": "fade-in 0.5s ease-out",
+        "fade-in-delay-1": "fade-in 0.6s ease-out 0.2s forwards",
+        "fade-in-delay-2": "fade-in 0.6s ease-out 0.4s forwards",
+        "fade-in-delay-3": "fade-in 0.6s ease-out 0.6s forwards",
+        "fade-in-delay-4": "fade-in 0.6s ease-out 0.8s forwards",
+        "fade-in-stagger": "fade-in-stagger 0.8s ease-out forwards",
+        float: "float 3s ease-in-out infinite",
+        shimmer: "shimmer 2s infinite",
+        "gradient-shift": "gradient-shift 3s ease infinite",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-        serif: ["Georgia", "serif"],
+        serif: ["Playfair Display", "Georgia", "serif"],
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: "none",
-            color: "hsl(var(--foreground))",
-            lineHeight: "1.7",
-          },
-        },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "pink-gold-gradient": "linear-gradient(135deg, hsl(340 82% 52%) 0%, hsl(45 93% 47%) 100%)",
+        "gold-pink-gradient": "linear-gradient(135deg, hsl(45 93% 47%) 0%, hsl(340 82% 52%) 100%)",
       },
     },
   },
