@@ -15,11 +15,11 @@ import Image from "next/image"
 interface ImageUploadProps {
   onImageAdd: (imageUrl: string, altText?: string, caption?: string) => void
   onImageRemove: (imageUrl: string) => void
-  images: string[]
+  images?: string[]
   maxImages?: number
 }
 
-export function ImageUpload({ onImageAdd, onImageRemove, images, maxImages = 5 }: ImageUploadProps) {
+export function ImageUpload({ onImageAdd, onImageRemove, images = [], maxImages = 5 }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const [uploadingFiles, setUploadingFiles] = useState<Set<string>>(new Set())
