@@ -1,0 +1,11 @@
+# Handle client-side routing
+/*    /index.html   200
+
+# API routes (if any)
+/api/*  /api/:splat  200
+
+# Handle dynamic routes
+/post/*  /index.html  200
+/write/*  /index.html  200
+/profile/*  /index.html  200
+/auth/*  /index.html  200

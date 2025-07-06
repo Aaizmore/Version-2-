@@ -1,0 +1,16 @@
+name = "lakambini-xi-archives"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "lakambini-xi-archives"
+
+[[env.production.routes]]
+pattern = "lakambini-xi-archives.pages.dev/*"
+
+[build]
+command = "npm run build"
+destination = "out"
+
+[env.production.vars]
+NODE_ENV = "production"

@@ -1,73 +1,115 @@
 import Link from "next/link"
-import { GraduationCap, Heart, Users } from "lucide-react"
+import { GraduationCap, Heart, Github, Mail } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-t border-primary/10 mt-auto">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent p-0.5">
+    <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {/* Brand */}
+          <div className="space-y-4">
+            <Link href="/" className="flex items-center gap-3 font-bold text-xl">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary p-0.5">
                 <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
-                  <GraduationCap className="h-5 w-5 text-primary" />
+                  <GraduationCap className="h-4 w-4 text-primary" />
                 </div>
               </div>
               <div>
-                <h3 className="font-bold text-lg gradient-text">Lakambini XI Archives</h3>
-                <p className="text-sm text-muted-foreground">Grade 11 Digital Stories</p>
+                <span className="gradient-text">Lakambini XI</span>
+                <div className="text-xs text-muted-foreground font-normal">Archives</div>
               </div>
-            </div>
-            <p className="text-muted-foreground text-sm leading-relaxed max-w-md">
-              Preserving memories and documenting the academic journey of Grade 11 Lakambini students for the 2025-2026
-              school year.
+            </Link>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              Preserving memories and experiences from our Grade 11 journey at Lakambini.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
+          <div className="space-y-4">
+            <h3 className="font-semibold">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors duration-200">
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/auth" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                  Join Archives
+                <Link href="#stories" className="text-muted-foreground hover:text-primary transition-colors">
+                  Stories
                 </Link>
               </li>
               <li>
-                <Link href="/write" className="text-muted-foreground hover:text-primary transition-colors duration-200">
-                  Write Story
+                <Link href="/write" className="text-muted-foreground hover:text-primary transition-colors">
+                  Write
+                </Link>
+              </li>
+              <li>
+                <Link href="/profile" className="text-muted-foreground hover:text-primary transition-colors">
+                  Profile
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Class Info */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Class Info</h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Users className="h-4 w-4 text-primary" />
-                <span>Grade 11 Lakambini</span>
-              </div>
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <GraduationCap className="h-4 w-4 text-accent" />
-                <span>Academic Year 2025-2026</span>
-              </div>
+          {/* Support */}
+          <div className="space-y-4">
+            <h3 className="font-semibold">Support</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/auth" className="text-muted-foreground hover:text-primary transition-colors">
+                  Sign In
+                </Link>
+              </li>
+              <li>
+                <Link href="/profile/edit" className="text-muted-foreground hover:text-primary transition-colors">
+                  Edit Profile
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:support@lakambini-archives.com"
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect */}
+          <div className="space-y-4">
+            <h3 className="font-semibold">Connect</h3>
+            <div className="flex gap-4">
+              <a
+                href="mailto:lakambini.archives@gmail.com"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Email"
+              >
+                <Mail className="h-5 w-5" />
+              </a>
+              <a
+                href="https://github.com/lakambini-xi"
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github className="h-5 w-5" />
+              </a>
             </div>
+            <p className="text-xs text-muted-foreground">
+              Academic Year 2025-2026
+              <br />
+              Grade 11 Lakambini
+            </p>
           </div>
         </div>
 
-        <div className="border-t border-primary/10 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © 2025 Lakambini XI Archives. Made with <Heart className="inline h-4 w-4 text-red-500 mx-1" /> by ADRXDEV.
+        <div className="border-t mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">© 2025 Lakambini XI Archives. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground flex items-center gap-1">
+            Made with <Heart className="h-4 w-4 text-red-500" /> by Grade 11 Students
           </p>
-          <p className="text-xs text-muted-foreground">Preserving memories • Sharing stories • Building connections</p>
         </div>
       </div>
     </footer>

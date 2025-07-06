@@ -41,7 +41,6 @@ export interface LoadingButtonProps
 const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
   ({ className, variant, size, asChild = false, loading = false, loadingText, children, disabled, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
-
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
@@ -50,7 +49,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, LoadingButtonProps>(
         {...props}
       >
         {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        {loading && loadingText ? loadingText : children}
+        {loading ? loadingText || "Loading..." : children}
       </Comp>
     )
   },
